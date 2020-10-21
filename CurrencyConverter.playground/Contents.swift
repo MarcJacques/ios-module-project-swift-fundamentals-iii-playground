@@ -5,6 +5,12 @@ enum Currency {
     case mxn
 }
 
+var currencyFormatter: NumberFormatter = {
+    let formatter = NumberFormatter()
+    formatter.numberStyle = .currency
+    return formatter
+}()
+
 //let usdToCad = dollar * 1.31
 
 var conversion = 0.0
@@ -16,12 +22,13 @@ func usdToCad(amount: Double) -> Double {
 
 //let usdToPeso = dollar * 21.10
 
+
 func usdToPeso(amount: Double) -> Double {
     conversion = amount * 21.10
     return conversion
 }
 
-let currency = Currency.cad
+var currency = Currency.cad
 
 func convert(_ dollars: Double) -> Double {
     if currency == .cad {
@@ -32,3 +39,19 @@ func convert(_ dollars: Double) -> Double {
     return conversion
 }
     
+func convert(amountString: String) -> String? {
+    let amount = Double(amountString)
+    
+    guard let unwrappedAmount = amount else {
+        return "invalid amount"
+    }
+    return String(convert(unwrappedAmount))
+
+}
+currency = .cad
+convert(amountString: "65000.00")
+currencyFormatter.string(from: NSNumber(value: convert(65000.00)))
+currency = .mxn
+convert(amountString: "65000.00")
+currencyFormatter.string(from: NSNumber(value: convert(65000.00)))
+
